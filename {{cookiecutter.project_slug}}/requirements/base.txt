@@ -1,0 +1,15 @@
+Django==4.1.3
+djangorestframework==3.14.0
+python-environ==0.4.54
+{% if cookiecutter.include_drf_spectacular == 'yes' %}
+drf-spectacular==0.24.2
+{% endif %}
+djangorestframework-simplejwt==5.2.2
+faker==17.6.0
+pyjwt==2.6.0
+psycopg2-binary==2.9.5
+cryptography==38.0.4
+django-debug-toolbar==3.8.1
+celery==5.2.7
+eventlet==0.33.2
+gunicorn==20.1.0
