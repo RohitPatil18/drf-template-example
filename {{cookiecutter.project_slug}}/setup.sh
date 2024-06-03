@@ -7,7 +7,7 @@ if [ "{{ cookiecutter.create_virtualenv }}" == "yes" ]; then
     echo "Virtual environment created."
     
     # Activate the virtual environment
-    source venv/bin/activate
+    source .venv/bin/activate
     
     # Install requirements if requirements.txt exists
     if [ -f "requirements/base.txt" ]; then
