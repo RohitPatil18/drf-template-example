@@ -4,43 +4,43 @@ services:
     build:
       context: .
       dockerfile: ./src/Dockerfile
-    container_name: passage-app
-    image: passage-app-django
+    container_name: {{ cookiecutter.project_slug }}-app
+    image: {{ cookiecutter.project_slug }}-app-django
     volumes:
-      - passage-app-static:/passage-app/static
-      - passage-app-media:/passage-app/media
-    command: bash -c "python manage.py collectstatic --no-input && python manage.py migrate && gunicorn --workers=3 passage.wsgi -b 0.0.0.0:8000"
+      - {{ cookiecutter.project_slug }}-app-static:/{{ cookiecutter.project_slug }}-app/static
+      - {{ cookiecutter.project_slug }}-app-media:/{{ cookiecutter.project_slug }}-app/media
+    command: bash -c "python manage.py collectstatic --no-input && python manage.py migrate && gunicorn --workers=3 {{ cookiecutter.project_slug }}.wsgi -b 0.0.0.0:8000"
 
   nginx:
     restart: always
-    container_name: passage-nginx
-    image: passage-nginx
+    container_name: {{ cookiecutter.project_slug }}-nginx
+    image: {{ cookiecutter.project_slug }}-nginx
     build: ./nginx/
     volumes:
       - ./nginx/:/etc/nginx/conf.d
-      - ./logs/:/passage-app/logs
-      - passage-app-static:/passage-app/static
-      - passage-app-media:/passage-app/media
+      - ./logs/:/{{ cookiecutter.project_slug }}-app/logs
+      - {{ cookiecutter.project_slug }}-app-static:/{{ cookiecutter.project_slug }}-app/static
+      - {{ cookiecutter.project_slug }}-app-media:/{{ cookiecutter.project_slug }}-app/media
     ports:
       - "3001:80"
     links:
       - app
 
   redis:
-    container_name: passage-redis
+    container_name: {{ cookiecutter.project_slug }}-redis
     restart: always
     image: redis:latest
     expose:
       - "6378"
 
   celery:
-    image: passage-app-django
-    container_name: passage-celery
-    command: bash -c "celery -A passage worker -l info"
+    image: {{ cookiecutter.project_slug }}-app-django
+    container_name: {{ cookiecutter.project_slug }}-celery
+    command: bash -c "celery -A {{ cookiecutter.project_slug }} worker -l info"
     depends_on:
       - redis
       - app
 
 volumes:
-  passage-app-static:
-  passage-app-media:
+  {{ cookiecutter.project_slug }}-app-static:
+  {{ cookiecutter.project_slug }}-app-media:

@@ -2,7 +2,6 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 
 from accounts import models
@@ -61,8 +60,6 @@ class UserChangeForm(forms.ModelForm):
             "first_name",
             "last_name",
             "email_address",
-            "user_type",
-            "company",
             "user_permissions",
             "role",
         )
@@ -73,12 +70,10 @@ class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ("first_name", "last_name", "email_address", "role")
-    list_filter = ("user_type", "role", "company")
+    list_display = ("first_name", "last_name", "email_address")
     fieldsets = (
         (None, {"fields": ("email_address", "password")}),
         ("Personal info", {"fields": ("first_name", "last_name")}),
-        ("Additional", {"fields": ("company", "role")}),
     )
 
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -86,7 +81,6 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {"fields": ("email_address", "password1", "password2")}),
         ("Personal info", {"fields": ("first_name", "last_name")}),
-        ("Additional", {"fields": ("company", "role")}),
     )
     search_fields = ("email_address", "first_name", "last_name")
     ordering = ("created_at",)
@@ -96,4 +90,3 @@ class UserAdmin(BaseUserAdmin):
 # Now register the new UserAdmin...
 admin.site.register(models.User, UserAdmin)
 
-admin.site.unregister(Group)

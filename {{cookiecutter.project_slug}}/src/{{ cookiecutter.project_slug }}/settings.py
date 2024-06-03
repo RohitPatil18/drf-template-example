@@ -39,9 +39,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     # User apps
     "softdelete",
-    "notifications",
     "core",
-    "authmod",
     "accounts",
 ]
 
