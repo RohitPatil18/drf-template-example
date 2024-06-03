@@ -11,7 +11,7 @@ if [ "{{ cookiecutter.create_virtualenv }}" == "yes" ]; then
     
     # Install requirements if requirements.txt exists
     if [ -f "requirements/base.txt" ]; then
-        pip install -r requirements.txt
+        pip install -r requirements/base.txt
         echo "Requirements installed."
     fi
 
